@@ -8,9 +8,20 @@ const {shuffleArray} = require('./utils')
 app.use(express.json())
 app.use(cors())
 
+// include and initialize the rollbar library with your access token
+var Rollbar = require('rollbar')
+var rollbar = new Rollbar({
+  accessToken: 'f2963c715eab4b70b57e5f703753e74d',
+  captureUncaught: true,
+  captureUnhandledRejections: true,
+})
+// record a generic message and send it to Rollbar
+rollbar.log('Hello world!')
+
 app.use(express.static(path.join(__dirname, "../public")))
 
 app.get("/", (req, res) => {
+    rollbar.info("HTML served")
     res.sendFile(path.join(__dirname, "../public/index.html"))
 })
 
@@ -29,8 +40,10 @@ app.get('/api/robots/five', (req, res) => {
         let choices = shuffled.slice(0, 5)
         let compDuo = shuffled.slice(6, 8)
         res.status(200).send({choices, compDuo})
+        rollbar.log("got 5 robots")
     } catch (error) {
         console.log('ERROR GETTING FIVE BOTS', error)
+        rollbar.error("error getting 5 bots")
         res.sendStatus(400)
     }
 })
@@ -68,12 +81,15 @@ app.post('/api/duel', (req, res) => {
 
 app.get('/api/player', (req, res) => {
     try {
+        rollbar.info("got player record")
         res.status(200).send(playerRecord)
     } catch (error) {
         console.log('ERROR GETTING PLAYER STATS', error)
         res.sendStatus(400)
     }
 })
+
+app.use(rollbar.errorHandler())
 
 const port = process.env.PORT || 3000
 
