@@ -30,6 +30,7 @@ app.use("/styles", express.static(path.join(__dirname, "/public/index.css")))
 
 app.get('/api/robots', (req, res) => {
     try {
+        rollbar.log("Someone got all the robotz")
         res.status(200).send(bots)
     } catch (error) {
         console.log('ERROR GETTING BOTS', error)
