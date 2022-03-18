@@ -16,7 +16,7 @@ var rollbar = new Rollbar({
 // record a generic message and send it to Rollbar
 rollbar.log('Hello world!')
 
-app.use("/", express.static(path.join(__dirname, "../public")))
+app.use(express.static(path.join(__dirname, "../public")))
 app.use("/js", express.static(path.join(__dirname, "../public/index.js")))
 app.use("/styles", express.static(path.join(__dirname, "../public/index.css")))
 
@@ -92,6 +92,7 @@ app.get('/api/player', (req, res) => {
 app.use(rollbar.errorHandler())
 
 const port = process.env.PORT || 3000
+
 
 app.listen(port, () => {
   console.log(`Listening on port ${port}`)
