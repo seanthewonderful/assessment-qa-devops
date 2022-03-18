@@ -16,13 +16,13 @@ var rollbar = new Rollbar({
 // record a generic message and send it to Rollbar
 rollbar.log('Hello world!')
 
-app.use(express.static(path.join(__dirname, "../public")))
-app.use("/js", express.static(path.join(__dirname, "../public/index.js")))
-app.use("/styles", express.static(path.join(__dirname, "../public/index.css")))
+app.use(express.static(path.join(__dirname, "/public")))
+app.use("/js", express.static(path.join(__dirname, "/public/index.js")))
+app.use("/styles", express.static(path.join(__dirname, "/public/index.css")))
 
 // app.get("/", (req, res) => {
 //     rollbar.info("HTML served")
-//     res.sendFile(path.join(__dirname, "../public/index.html"))
+//     res.sendFile(path.join(__dirname, "/public/"))
 // })
 
 app.get('/api/robots', (req, res) => {
