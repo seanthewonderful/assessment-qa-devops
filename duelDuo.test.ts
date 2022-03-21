@@ -33,6 +33,16 @@ test('Make sure all bots appear when button clicked', async () => {
     await driver.sleep(2000)
 })
 
+test('When bot is removed from duo, it goes back to "choices"', async () => {
+    let choices = driver.findElement(By.id('choices'))
+    await (driver.findElement(By.id('drawBtn')).click())
+    let bot1 = driver.findElement(By.xpath('(//button[text()="Remove from Duo"])'))
+    await bot1.click()
+    let putBack = driver.findElement(By.xpath('(//button[text()="Remove from Duo"])'))
+    await putBack.click()
+    expect(choices).toContain(bot1)
+})
+
 //Check that clicking the Draw button displays the div with id = “choices”
 // test("draw button displays div with id='choices'", async () => {
 //     await driver.findElement(By.xpath("//button[@id='draw']")).click()
